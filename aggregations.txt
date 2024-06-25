@@ -13,3 +13,15 @@ db.transactions.aggregate([
     }
 ])
   
+
+db.customers.aggregate([
+  { $unwind: "$accounts" },
+  {
+    $group: {
+      _id: "$_id",
+      username: { $first: "$username" },
+      totalAccounts: { $sum: 1 }
+    }
+  },
+  { $sort: { totalAccounts: -1 } }
+])
