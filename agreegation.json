@@ -1,0 +1,15 @@
+db.transactions.aggregate([
+    {
+      $group: {
+        _id: "$account_id",  // Mengelompokkan berdasarkan account_id
+        totalTransactions: { $sum: "$transaction_count" }  // Menghitung total transaksi
+      }
+    },
+    {
+      $sort: { totalTransactions: -1 }  // Mengurutkan secara descending berdasarkan total transaksi
+    },
+    {
+      $limit: 1  // Mengambil hanya satu dokumen dengan transaksi terbanyak
+    }
+])
+  
